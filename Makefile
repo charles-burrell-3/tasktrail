@@ -23,5 +23,7 @@ install:
 	uv add --dev ruff
 	uv add --dev pytest
 	uv add --dev pytest-coverage
+check:
+	uv run verify_env.py --stage 2
 run:
 	uv run flask --app tasktrail --debug run --port 8000

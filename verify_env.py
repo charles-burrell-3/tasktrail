@@ -74,6 +74,11 @@ def stage_1():
     package_check("flask", "flask", "flask")
 
 
+def stage_2():
+    ok, _ = run(["gh", "--version"])
+    check("GH installled", ok, "GH needs to be installed")
+
+
 def stage_3():
     package_check("flask-wtf", "flask_wtf", "flask-wtf")
 
@@ -120,7 +125,7 @@ def stage_10():
           "Install Terraform with your package manager (Appendix B)")
 
 
-STAGES = {0: stage_0, 1: stage_1, 3: stage_3, 4: stage_4, 5: stage_5,
+STAGES = {0: stage_0, 1: stage_1, 2: stage_2, 3: stage_3, 4: stage_4, 5: stage_5,
           6: stage_6, 7: stage_7, 8: stage_8, 9: stage_9, 10: stage_10}
 
 
