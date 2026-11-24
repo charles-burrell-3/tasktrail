@@ -1,4 +1,6 @@
-from flask import Flask, redirect, url_for, jsonify, request, abort
+from flask import Flask, redirect, url_for, jsonify, request, abort, render_template
+
+from tasktrail.sample_data import PROJECTS
 
 app = Flask(__name__)
 app.config["APP_NAME"] = "TaskTrail"
@@ -15,7 +17,7 @@ def home():
 
 @app.route("/projects")
 def project_list():
-    return "All projects will go here."
+    return render_template("projects.html", projects=PROJECTS)
 
 
 @app.route("/projects/<int:project_id>")
