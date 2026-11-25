@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% from "_macros.html" import task_row %}
+{% block content %}
+  <h1 class="mb-4">Projects</h1>
+
+  <div class="row g-4">
+    {% for project in projects %}
+      {# new: work out the numbers for THIS project #}
+      {% set done_count = project.tasks|selectattr("status", "equalto", "done")|list|length %}
+      {% set total = project.tasks|length %}
+      {% set percent = (done_count / total * 100)|round|int if total else 0 %}
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="card-title h5">
+              <a class="stretched-link text-decoration-none"
+                 href="{{ url_for('project_detail', project_id=project.id) }}">
+                {{ project.name }}
+              </a>
+            </h2>
+            <p class="card-text text-body-secondary">{{ project.description }}</p>
+
+            {# new: the progress bar #}
+            <div class="progress" role="progressbar" aria-valuenow="{{ percent }}"
+                 aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: {{ percent }}%"></div>
+            </div>
+          </div>
+          <div class="card-footer text-body-secondary">
+            {# new: replaces the old "N tasks" text #}
+            {{ done_count }} of {{ total }} done
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% from "_macros.html" import task_row %}
+
+{% block title %}{{ project.name }} | TaskTrail{% endblock %}
+
+{% block content %}
+  {% set todo_count = project.tasks|selectattr("status", "equalto", "todo")|list|length %}
+  {% set doing_count = project.tasks|selectattr("status", "equalto", "in_progress")|list|length %}
+  {% set done_count = project.tasks|selectattr("status", "equalto", "done")|list|length %}
+
+  <h1>{{ project.name }}</h1>
+  <p class="lead">{{ project.description }}</p>
+
+  {% if project.tasks %}
+    <p class="text-body-secondary">
+      {{ todo_count }} to do, {{ doing_count }} in progress, {{ done_count }} done
+    </p>
+
+    <table class="table align-middle">
+      <thead>
+        <tr><th>Task</th><th>Status</th><th>Priority</th><th>Due</th></tr>
+      </thead>
+      <tbody>
+        {% for task in project.tasks %}
+          {{ task_row(task) }}
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="text-body-secondary">No tasks yet.</p>
+  {% endif %}
+
+  <a class="btn btn-outline-primary" href="{{ url_for('project_list') }}">
+    Back to projects
+  </a>
+{% endblock %}

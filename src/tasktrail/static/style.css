@@ -1,0 +1,13 @@
+h1 {
+  color: darkslateblue;
+}
+
+.task-done {
+  text-decoration: line-through;
+  color: gray;
+}
+main {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
