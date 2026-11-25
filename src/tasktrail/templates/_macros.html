@@ -1,0 +1,7 @@
+{% macro task_item(task) %}
+  <p>
+    {{ task.title }}
+    <small>({{ task.status|replace("_", " ") }}, priority {{ task.priority }},
+    due {{ task.due }})</small>
+  </p>
+{% endmacro %}

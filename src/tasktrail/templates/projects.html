@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Projects</title>
-    </head>
-    <body>
-        <h1>Projects</h1>
-            {% if projects %}
-              <ul>
-                {% for project in projects %}
-                  <li>
+{% extends "base.html" %}
+{% block title %}Projects | TaskTrail{% endblock %}
+{% block content %}
+    <h1>Projects</h1>
+    {% if projects %}
+        <ul>
+            {% for project in projects %}
+                <li>
                     <ul>
                       {% for task in project.tasks %}
                         <li>{{ task.title }}</li>
@@ -20,8 +16,7 @@
                   </li>
                 {% endfor %}
               </ul>
-            {% else %}
-              <p>You don't have any projects yet.</p>
-            {% endif %}
-    </body>
-</html>
+    {% else %}
+        <p>You don't have any projects yet.</p>
+    {% endif %}
+{% endblock %}
