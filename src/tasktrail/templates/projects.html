@@ -5,6 +5,11 @@
 
   <div class="row g-4">
     {% for project in projects %}
+      {# new: work out the numbers for THIS project #}
+      {% set done_count = project.tasks|selectattr("status", "equalto", "done")|list|length %}
+      {% set total = project.tasks|length %}
+      {% set percent = (done_count / total * 100)|round|int if total else 0 %}
+
       <div class="col-12 col-md-6 col-lg-4">
         <div class="card h-100">
           <div class="card-body">
@@ -15,14 +20,19 @@
               </a>
             </h2>
             <p class="card-text text-body-secondary">{{ project.description }}</p>
+
+            {# new: the progress bar #}
+            <div class="progress" role="progressbar" aria-valuenow="{{ percent }}"
+                 aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: {{ percent }}%"></div>
+            </div>
           </div>
           <div class="card-footer text-body-secondary">
-            {{ project.tasks|length }} tasks
+            {# new: replaces the old "N tasks" text #}
+            {{ done_count }} of {{ total }} done
           </div>
         </div>
       </div>
-    {% else %}
-      <p>You don't have any projects yet.</p>
     {% endfor %}
   </div>
 {% endblock %}
