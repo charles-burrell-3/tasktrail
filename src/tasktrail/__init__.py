@@ -1,9 +1,10 @@
-from flask import Flask, redirect, url_for, jsonify, request, abort, render_template
+from flask import Flask, redirect, url_for, jsonify, request, abort, render_template, flash
 
 from tasktrail.sample_data import PROJECTS
 
 app = Flask(__name__)
 app.config["APP_NAME"] = "TaskTrail"
+app.config["SECRET_KEY"] = "dev-only-not-a-real-secret"
 
 
 def main() -> None:
@@ -13,6 +14,13 @@ def main() -> None:
 @app.route("/")
 def home():
     return render_template("home.html")
+
+
+@app.route("/flash-demo")
+def flash_demo():
+    flash("This is a success message!", "success")
+    flash("And this one is a warning.", "warning")
+    return redirect(url_for("project_list"))
 
 
 @app.route("/about")
@@ -61,3 +69,18 @@ def teapot():
 @app.route("/forbidden-fruit")
 def forbidden_fruit():
     abort(404)
+
+
+@app.route("/test_500")
+def test_500():
+    return 1/0
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def server_error(error):
+    return render_template("500.html"), 500
