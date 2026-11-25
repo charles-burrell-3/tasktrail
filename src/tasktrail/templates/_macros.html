@@ -1,7 +1,20 @@
-{% macro task_item(task) %}
-  <p class="{{ 'task-done' if task.status == 'done' else '' }}">
-    {{ task.title }}
-    <small>({{ task.status|replace("_", " ") }}, priority {{ task.priority }},
-    due {{ task.due }})</small>
-  </p>
+{% macro status_badge(status) %}
+  {% if status == "done" %}
+    <span class="badge text-bg-success">Done</span>
+  {% elif status == "in_progress" %}
+    <span class="badge text-bg-warning">In progress</span>
+  {% else %}
+    <span class="badge text-bg-secondary">To do</span>
+  {% endif %}
+{% endmacro %}
+
+{% macro task_row(task) %}
+  <tr>
+    <td class="{{ 'task-done' if task.status == 'done' else '' }}">
+      {{ task.title }}
+    </td>
+    <td>{{ status_badge(task.status) }}</td>
+    <td>{{ task.priority }}</td>
+    <td>{{ task.due }}</td>
+  </tr>
 {% endmacro %}

@@ -1,18 +1,28 @@
 {% extends "base.html" %}
-{% from "_macros.html" import task_item %}
+{% from "_macros.html" import task_row %}
 
 {% block title %}{{ project.name }} | TaskTrail{% endblock %}
 
 {% block content %}
   <h1>{{ project.name }}</h1>
-  <p>{{ project.description }}</p>
+  <p class="lead">{{ project.description }}</p>
 
-  <h2>Tasks</h2>
-  {% for task in project.tasks %}
-      {{ task_item(task) }}
+  {% if project.tasks %}
+    <table class="table align-middle">
+      <thead>
+        <tr><th>Task</th><th>Status</th><th>Priority</th><th>Due</th></tr>
+      </thead>
+      <tbody>
+        {% for task in project.tasks %}
+          {{ task_row(task) }}
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
-    <p>No tasks yet.</p>
-  {% endfor %}
+    <p class="text-body-secondary">No tasks yet.</p>
+  {% endif %}
 
-  <p><a href="{{ url_for('project_list') }}">Back to projects</a></p>
+  <a class="btn btn-outline-primary" href="{{ url_for('project_list') }}">
+    Back to projects
+  </a>
 {% endblock %}

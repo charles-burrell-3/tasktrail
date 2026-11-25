@@ -1,23 +1,28 @@
 {% extends "base.html" %}
-{% from "_macros.html" import task_item %}
-{% block title %}Projects | TaskTrail{% endblock %}
+{% from "_macros.html" import task_row %}
 {% block content %}
-    <h1>Projects</h1>
-    {% if projects %}
-        <ul>
-            {% for project in projects %}
-                <li>
-                    <ul>
-                      {% for task in project.tasks %}
-                        {{ task_item(task) }}
-                      {% endfor %}
-                    </ul>
-                    <br>
-                    {{ project.description|default("No description yet.") }}
-                  </li>
-                {% endfor %}
-              </ul>
+  <h1 class="mb-4">Projects</h1>
+
+  <div class="row g-4">
+    {% for project in projects %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="card-title h5">
+              <a class="stretched-link text-decoration-none"
+                 href="{{ url_for('project_detail', project_id=project.id) }}">
+                {{ project.name }}
+              </a>
+            </h2>
+            <p class="card-text text-body-secondary">{{ project.description }}</p>
+          </div>
+          <div class="card-footer text-body-secondary">
+            {{ project.tasks|length }} tasks
+          </div>
+        </div>
+      </div>
     {% else %}
-        <p>You don't have any projects yet.</p>
-    {% endif %}
+      <p>You don't have any projects yet.</p>
+    {% endfor %}
+  </div>
 {% endblock %}
