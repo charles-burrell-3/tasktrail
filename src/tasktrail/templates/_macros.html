@@ -1,5 +1,5 @@
 {% macro task_item(task) %}
-  <p>
+  <p class="{{ 'task-done' if task.status == 'done' else '' }}">
     {{ task.title }}
     <small>({{ task.status|replace("_", " ") }}, priority {{ task.priority }},
     due {{ task.due }})</small>
